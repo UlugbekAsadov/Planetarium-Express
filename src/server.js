@@ -11,6 +11,10 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Auth routes
+app.use("/api/v1/auth", require("../routes/auth/auth.route"));
+
+// Logger
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -18,5 +22,5 @@ if (process.env.NODE_ENV === "development") {
 // Connection to DB
 connectDB();
 app.listen(process.env.PORT, () =>
-  console.log(`Server is running on port ${process.env.PORT}` .bgGreen )
+  console.log(`Server is running on port ${process.env.PORT}`.bgGreen)
 );
