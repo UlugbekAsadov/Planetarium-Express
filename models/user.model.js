@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema(
   {
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       match: [
         /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-        "Please enter valid email  address",
+        "Please enter valid email address",
       ],
     },
     password: {
@@ -61,6 +62,13 @@ userSchema.pre("save", async function (next) {
 // Check user entered password
 userSchema.methods.matchPassword = async function (pass) {
   return await bcrypt.compare(pass, this.password);
+};
+
+// Generate jwt token
+userSchema.methods.generateJwtToken = async function () {
+  return jwt.sign({ id: this._id, email: this.email }, process.env.JWT_TOKEN, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
 };
 
 module.exports = mongoose.model("User", userSchema);

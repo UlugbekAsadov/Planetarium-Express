@@ -11,12 +11,15 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const apiKey = uuid.v4();
 
+  const token = user.generateJwtToken();
+
   const user = await User.create({
     firstName,
     lastName,
     password,
     email,
     apiKey,
+    token,
   });
 
   res.status(201).json({
@@ -28,7 +31,6 @@ exports.register = asyncHandler(async (req, res, next) => {
 // @desc     Login user
 // @route    POST /api/v1/auth/login
 // @access   Public
-
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -50,8 +52,11 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(ERROR_MESSAGES.InvalidCredintials, 401));
   }
 
+  const token = await user.generateJwtToken();
+
   res.status(200).json({
     success: true,
     data: user,
+    token,
   });
 });
