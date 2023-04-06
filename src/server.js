@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const connectDB = require("../config/db");
 const morgan = require("morgan");
 const colors = require("colors");
+const errorHandler = require("../middlewares/error")
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Auth routes
 app.use("/api/v1/auth", require("../routes/auth/auth.route"));
+
+// Error handler
+app.use(errorHandler)
 
 // Logger
 if (process.env.NODE_ENV === "development") {
