@@ -3,14 +3,17 @@ const dotenv = require("dotenv");
 const connectDB = require("../config/db");
 const morgan = require("morgan");
 const colors = require("colors");
-const errorHandler = require("../middlewares/error")
-
+const errorHandler = require("../middlewares/error");
+const path = require("path");
 const app = express();
 dotenv.config();
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Set static folder
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Auth routes
 app.use("/api/v1/auth", require("../routes/auth/auth.route"));

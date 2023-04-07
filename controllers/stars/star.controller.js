@@ -42,7 +42,7 @@ exports.createNewStar = asyncHandler(async (req, res, next) => {
     temperature: req.body.temperature,
     massa: req.body.massa,
     diametr: req.body.diametr,
-    image: req.body.image,
+    image: "uploads/" + req.file.filename
   });
 
   res.status(200).json({
