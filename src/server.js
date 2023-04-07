@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Auth routes
 app.use("/api/v1/auth", require("../routes/auth/auth.route"));
+app.use("/api/v1/stars", require("../routes/stars/stars.route"));
 
 // Error handler
 app.use(errorHandler)

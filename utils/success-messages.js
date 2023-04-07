@@ -1,0 +1,3 @@
+exports.SUCCESS_MESSAGES = {
+    Deleted: "DELETED_SUCCESSFULLY"
+}
