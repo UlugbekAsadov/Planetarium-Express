@@ -18,6 +18,9 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Auth routes
 app.use("/api/v1/auth", require("../routes/auth/auth.route"));
 
+// Users routes
+app.use("/api/v1/users", require("../routes/users/users.route"));
+
 // Stars routes
 app.use("/api/v1/stars", require("../routes/stars/stars.route"));
 
