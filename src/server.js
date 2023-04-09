@@ -17,10 +17,15 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 // Auth routes
 app.use("/api/v1/auth", require("../routes/auth/auth.route"));
+
+// Stars routes
 app.use("/api/v1/stars", require("../routes/stars/stars.route"));
 
+// Planets routes
+app.use("/api/v1/planets", require("../routes/planets/planets.route"));
+
 // Error handler
-app.use(errorHandler)
+app.use(errorHandler);
 
 // Logger
 if (process.env.NODE_ENV === "development") {

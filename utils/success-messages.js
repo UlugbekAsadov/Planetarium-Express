@@ -1,3 +1,5 @@
 exports.SUCCESS_MESSAGES = {
-    Deleted: "DELETED_SUCCESSFULLY"
-}
+  Deleted: "DELETED_SUCCESSFULLY",
+  Created: "CREATED_SUCCESSFULLY",
+  Updated: "UPDATED_SUCCESSFULLY",
+};

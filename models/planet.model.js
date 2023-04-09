@@ -4,30 +4,31 @@ const planetSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: true,
     },
     distanceToStar: {
-      type: String,
+      type: Number,
       required: true,
     },
     diametr: {
-      type: String,
+      type: Number,
       required: true,
     },
     yearDuration: {
-      type: String,
+      type: Number,
       required: true,
     },
     dayDuration: {
-      type: String,
+      type: Number,
       required: true,
     },
     temperature: {
-      type: String,
+      type: Number,
       required: true,
     },
     sequenceNumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     satellites: {
