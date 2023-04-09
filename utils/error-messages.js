@@ -7,4 +7,5 @@ exports.ERROR_MESSAGES = {
   UserStatusNotActive: "USER_STATUS_NOT_ACTIVE",
   IncorrectPassword: "INCORRECT_PASSWORD",
   LackOfBalance: "LACK_OF_BALANCE",
+  UserAlreadyRegistrated: "USER_ALREADY_REGISTRATED",
 };

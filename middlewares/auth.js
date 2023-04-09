@@ -26,7 +26,7 @@ exports.protected = asyncHandler(async (req, res, next) => {
 
 // Grand access to admins
 exports.adminAccess = (req, res, next) => {
-  if (!req.user.adminStatus) {
+  if (!req.user.isAdmin) {
     return next(new ErrorResponse(ERROR_MESSAGES.NotAccess, 403));
   }
 

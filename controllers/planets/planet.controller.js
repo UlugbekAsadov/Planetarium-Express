@@ -8,10 +8,17 @@ const { SUCCESS_MESSAGES } = require("../../utils/success-messages");
 // @route    GET /api/v1/planets
 // @access   Public / with apiKey
 exports.getAllPlanets = asyncHandler(async (req, res, next) => {
-  const planets = await Planet.find();
+  const { page = 1, limit = 10 } = req.query;
+  const total = await Planet.countDocuments();
+
+  const planets = await Planet.find()
+    .skip(page * limit - limit)
+    .limit(limit);
 
   res.status(200).json({
     success: true,
+    totalPage: Math.ceil(total / limit),
+    currentPage: parseInt(page),
     data: planets,
   });
 });

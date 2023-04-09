@@ -13,7 +13,11 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const apiKey = uuid.v4();
 
-  const token = user.generateJwtToken();
+  const isUserExisted = await User.find({ email });
+
+  if (isUserExisted.length) {
+    return next(new ErrorResponse(ERROR_MESSAGES.UserAlreadyRegistrated, 403));
+  }
 
   const user = await User.create({
     firstName,
@@ -21,12 +25,14 @@ exports.register = asyncHandler(async (req, res, next) => {
     password,
     email,
     apiKey,
-    token,
   });
+
+  const token = await user.generateJwtToken();
 
   res.status(201).json({
     success: true,
     data: user,
+    token,
   });
 });
 
