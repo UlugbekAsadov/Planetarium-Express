@@ -32,3 +32,22 @@ exports.adminAccess = (req, res, next) => {
 
   next();
 };
+
+// API key access
+exports.apiKeyAccess = asyncHandler(async (req, res, next) => {
+  const key = req.headers["apikey"] || null;
+
+  if (!key) {
+    return next(new ErrorResponse(ERROR_MESSAGES.NoApiKey, 403));
+  }
+
+  const user = await User.findOne({ apiKey: key });
+
+  // check if user exist
+  if (!user) next(new ErrorResponse(ERROR_MESSAGES.UserNotFound, 400));
+
+  if (!user.isActive)
+    next(new ErrorResponse(ERROR_MESSAGES.UserStatusNotActive, 400));
+
+  next();
+});
