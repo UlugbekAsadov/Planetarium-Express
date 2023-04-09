@@ -66,7 +66,7 @@ userSchema.methods.matchPassword = async function (pass) {
 
 // Generate jwt token
 userSchema.methods.generateJwtToken = async function () {
-  return jwt.sign({ id: this._id, email: this.email }, process.env.JWT_TOKEN, {
+  return jwt.sign({ id: this._id, email: this.email }, process.env.JWT_TOKEN_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
