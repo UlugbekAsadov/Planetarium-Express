@@ -4,6 +4,7 @@ const ErrorResponse = require("../../utils/error-response");
 const asyncHandler = require("../../middlewares/async");
 const { ERROR_MESSAGES } = require("../../utils/error-messages");
 const { SUCCESS_MESSAGES } = require("../../utils/success-messages");
+const bcrypt = require("bcryptjs");
 
 // @desc     Register new user
 // @route    POST /api/v1/auth/register
@@ -94,6 +95,31 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: updatedUser,
+    message: SUCCESS_MESSAGES.Updated,
+  });
+});
+
+// @desc     Update password
+// @route    PUT /api/v1/auth/updatePassword
+// @access   Private
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+  const { newPassword, oldPassword } = req.body;
+  const userId = req.user._id;
+  const user = await User.findById(userId);
+  const isOldPasswordMatch = await user.matchPassword(oldPassword);
+
+  if (!isOldPasswordMatch) {
+    return next(new ErrorResponse(ERROR_MESSAGES.IncorrectPassword, 403));
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  const token = await user.generateJwtToken();
+  res.status(200).json({
+    success: true,
+    data: user,
+    token,
     message: SUCCESS_MESSAGES.Updated,
   });
 });
