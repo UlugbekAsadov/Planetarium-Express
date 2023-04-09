@@ -3,6 +3,7 @@ const uuid = require("uuid");
 const ErrorResponse = require("../../utils/error-response");
 const asyncHandler = require("../../middlewares/async");
 const { ERROR_MESSAGES } = require("../../utils/error-messages");
+const { SUCCESS_MESSAGES } = require("../../utils/success-messages");
 
 // @desc     Register new user
 // @route    POST /api/v1/auth/register
@@ -58,5 +59,41 @@ exports.login = asyncHandler(async (req, res, next) => {
     success: true,
     data: user,
     token,
+  });
+});
+
+// @desc     Get profile
+// @route    POST /api/v1/auth/getProfile
+// @access   Private
+exports.getProfile = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId);
+
+  res.status(200).json({ success: true, data: user });
+});
+
+// @desc     Update profile
+// @route    PUT /api/v1/auth/updateProfile
+// @access   Private
+exports.updateProfile = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId);
+
+  const fieldsToUpdate = {
+    firstName: req.body.firstName || user.firstName,
+    lastName: req.body.lastName || user.lastName,
+    email: req.body.email || user.email,
+  };
+
+  const updatedUser = await User.findByIdAndUpdate(userId, fieldsToUpdate, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: updatedUser,
+    message: SUCCESS_MESSAGES.Updated,
   });
 });
