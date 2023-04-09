@@ -5,12 +5,15 @@ const morgan = require("morgan");
 const colors = require("colors");
 const errorHandler = require("../middlewares/error");
 const path = require("path");
+const cors = require('cors')
+
 const app = express();
 dotenv.config();
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors())
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "../public")));
