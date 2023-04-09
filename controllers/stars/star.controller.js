@@ -17,7 +17,7 @@ exports.getAllStars = asyncHandler(async (req, res, next) => {
 
 // @desc     Get Star By Id
 // @route    GET /api/v1/stars/:id
-// @access   Private / Admin / with apiKey
+// @access   Private / with apiKey
 exports.getStarById = asyncHandler(async (req, res, next) => {
   const starId = req.params.id;
 
@@ -42,7 +42,7 @@ exports.createNewStar = asyncHandler(async (req, res, next) => {
     temperature: req.body.temperature,
     massa: req.body.massa,
     diametr: req.body.diametr,
-    image: "uploads/" + req.file.filename
+    image: "uploads/" + req.file.filename,
   });
 
   res.status(200).json({
