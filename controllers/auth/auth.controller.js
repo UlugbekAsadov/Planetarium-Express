@@ -123,3 +123,50 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
     message: SUCCESS_MESSAGES.Updated,
   });
 });
+
+// @desc     Payment balace
+// @route    PUT /api/v1/auth/payment
+// @access   Private
+exports.payment = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
+  const { amount } = req.body;
+  const user = await User.findById(userId);
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { balance: user.balance + amount },
+    { new: true }
+  );
+
+  res.status(200).json({
+    success: true,
+    data: updatedUser,
+  });
+});
+
+// @desc     Activate Status
+// @route    PUT /api/v1/auth/activate
+// @access   Private
+exports.activateStatus = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId);
+  const minAmountForUseApi = process.env.MIN_AMOUNT_FOR_USE_API;
+  if (user.balance < minAmountForUseApi) {
+    return next(new ErrorResponse(ERROR_MESSAGES.LackOfBalance, 403));
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      balance: user.balance - minAmountForUseApi,
+      isActive: true,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    success: true,
+    data: updatedUser,
+    message: SUCCESS_MESSAGES.Updated,
+  });
+});
