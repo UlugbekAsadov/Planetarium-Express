@@ -123,8 +123,8 @@ exports.updatePlanet = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc     Delete star
-// @route    DELETE /api/v1/stars/:id
+// @desc     Delete planet
+// @route    DELETE /api/v1/planet/:id
 // @access   Private / Admin / with apiKey
 exports.deletePlanet = asyncHandler(async (req, res, next) => {
   const planetId = req.params.id;
