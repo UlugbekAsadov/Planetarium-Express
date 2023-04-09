@@ -13,7 +13,7 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const apiKey = uuid.v4();
 
-  const token = user.generateJwtToken();
+  const token = await user.generateJwtToken();
 
   const user = await User.create({
     firstName,
