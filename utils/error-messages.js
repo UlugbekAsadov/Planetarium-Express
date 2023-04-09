@@ -5,5 +5,6 @@ exports.ERROR_MESSAGES = {
   NoApiKey: "NO_API_KEY",
   UserNotFound: "USER_NOT_FOUND",
   UserStatusNotActive: "USER_STATUS_NOT_ACTIVE",
-  IncorrectPassword: "INCORRECT_PASSWORD"
+  IncorrectPassword: "INCORRECT_PASSWORD",
+  LackOfBalance: "LACK_OF_BALANCE",
 };
